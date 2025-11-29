@@ -1,12 +1,23 @@
 package com.br.model;
 
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -35,6 +46,26 @@ public class Imovel {
 
 	@Column(name="quantidade")
 	private int quantidade;
+
+	// Relacionamento N:1 - Muitos imóveis para um proprietário
+	@ManyToOne
+	@JoinColumn(name = "proprietario_id")
+	@JsonBackReference
+	private Proprietario proprietario;
+
+	// Relacionamento 1:1 - Um imóvel tem uma documentação
+	@OneToOne(mappedBy = "imovel", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonManagedReference
+	private Documentacao documentacao;
+
+	// Relacionamento N:N - Um imóvel pode ter várias características
+	@ManyToMany
+	@JoinTable(
+		name = "imovel_caracteristica",
+		joinColumns = @JoinColumn(name = "imovel_id"),
+		inverseJoinColumns = @JoinColumn(name = "caracteristica_id")
+	)
+	private Set<Caracteristica> caracteristicas = new HashSet<>();
 
 
 	//Construtor padrao, para a super classe
@@ -129,7 +160,32 @@ public class Imovel {
 		this.quantidade = quantidade;
 	}
 
+	public Proprietario getProprietario() {
+		return proprietario;
+	}
 
+	public void setProprietario(Proprietario proprietario) {
+		this.proprietario = proprietario;
+	}
+
+	public Documentacao getDocumentacao() {
+		return documentacao;
+	}
+
+	public void setDocumentacao(Documentacao documentacao) {
+		this.documentacao = documentacao;
+		if (documentacao != null) {
+			documentacao.setImovel(this);
+		}
+	}
+
+	public Set<Caracteristica> getCaracteristicas() {
+		return caracteristicas;
+	}
+
+	public void setCaracteristicas(Set<Caracteristica> caracteristicas) {
+		this.caracteristicas = caracteristicas;
+	}
 
 
 

@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Dev/web2/Frontend/src/app/**)",
+      "Read(//c/Dev/web2/**)",
+      "Read(//c/Dev/web2/Frontend/**)",
+      "Bash(cat:*)",
+      "Bash(ng generate:*)",
+      "Bash(dir:*)",
+      "Bash(test:*)",
+      "Bash(java -version:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

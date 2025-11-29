@@ -58,7 +58,7 @@ public class ImovelController {
 		imovel.setTipo(imovelAtualizado.getTipo());
 		imovel.setDataConstrucao(imovelAtualizado.getDataConstrucao());
 		imovel.setPrecoVenda(imovelAtualizado.getPrecoVenda());
-		imovel.setMobiliado(imovelAtualizado.getMobiliado());
+		imovel.setMobiliado(imovelAtualizado.isMobiliado());
 		imovel.setQuantidade(imovelAtualizado.getQuantidade());
 
 		Imovel imovelSalvo = imovelrep.save(imovel);
